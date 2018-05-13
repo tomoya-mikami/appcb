@@ -29,8 +29,12 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+# Ignore secret
+/config/secrets.yml
+
 # Ignore vagrant file
 /.vagrant
 
 # Ignore vscode file
-/.vscode
+/.vscode/last.sql
+/.vscode/temp.sql
