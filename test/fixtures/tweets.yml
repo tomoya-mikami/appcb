@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tw_id: 1
+  tw_time: MyString
+  tw_text: MyString
+  lon: 9.99
+  lat: 9.99
+
+two:
+  tw_id: 1
+  tw_time: MyString
+  tw_text: MyString
+  lon: 9.99
+  lat: 9.99

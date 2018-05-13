@@ -21,4 +21,5 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
+* 初めに行うこと
+  - secrets_sample.ymlを複製してsecrets.ymlにリネーム、各種キーを設定する
