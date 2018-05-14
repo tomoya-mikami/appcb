@@ -15,5 +15,15 @@ module Appcb
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    config.action_controller.action_on_unpermitted_parameters = :log
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
+    
+    config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :delete]
+      end
+    end
   end
 end
