@@ -13,12 +13,12 @@ Things you may want to cover:
 
 * Database creation
 
-|name       |type     |null   |default  |description  |
-|-----------|---------|-------|---------|-------------|
-|type       |int      |false  |0        |送信元        |
-|longitude  |decimal  |false  |999      |緯度          |
-|latitude   |decimal  |false  |999      |経度          |
-|comment    |string   |false  |         |何があったか   |
+|name         |type     |null   |default  |description  |
+|-------------|---------|-------|---------|-------------|
+|type         |int      |false  |0        |送信元        |
+|longitude    |decimal  |false  |999      |緯度          |
+|latitude     |decimal  |false  |999      |経度          |
+|description  |string   |false  |         |何があったか   |
 
 * Database initialization
 
