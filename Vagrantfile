@@ -66,7 +66,7 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", privileged: false ,inline: <<-SHELL
     sudo apt-get update
-	sudo apt-get install -y apache2 sqlite3 libsqlite3-dev build-essential libssl-dev
+    sudo apt-get install -y apache2 sqlite3 libsqlite3-dev build-essential libssl-dev
     sudo apt-get git
     git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
     echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
@@ -80,10 +80,11 @@ Vagrant.configure("2") do |config|
     rbenv exec gem install bundler
     rbenv rehash
     gem install rails
-	source ~/.bash_profile
-	curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.2/install.sh | bash
-	bash
-	nvm install v8.11.1
-	nvm use v8.11.1
+	  source ~/.bash_profile
+    curl -L git.io/nodebrew | perl - setup
+    echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.bash_profile
+    source ~/.bash_profile
+    nodebrew install v8.11.1
+    nodebrew use v8.11.1
   SHELL
 end
