@@ -1,0 +1,16 @@
+<div id="map" style="width: 600px;height: 600px;"></div>
+<form action="#">
+  <div id="address"></div>
+  <div name="postion">
+    <input type="text" name="lat" id="lat">
+    <input type="text" name="lng" id="lng">
+  </div>
+  <div name="description">
+    ここで何がありましたか？ : <input type="text" name="description" id="description">
+  </div>
+  <div name="submit">
+    <button type="submit">送信</button>
+  </div>
+</form>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= @google_map_api_key %>&callback=initMap" async defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

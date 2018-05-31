@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'static/map'
+  get 'static/check'
+  get 'static/hearing'
   get 'position/index'
   get 'position/create'
   devise_for :admin_users, ActiveAdmin::Devise.config
