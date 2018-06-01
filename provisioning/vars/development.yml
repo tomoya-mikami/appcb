@@ -1,0 +1,4 @@
+home: "/home/vagrant" 
+user: "vagrant"
+ruby_version: "2.4.2"
+node_version: "v8.11.1"

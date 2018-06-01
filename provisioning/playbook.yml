@@ -1,0 +1,5 @@
+- import_playbook: playbook/basic.yml
+- import_playbook: playbook/ruby.yml
+- import_playbook: playbook/sqlite.yml
+- import_playbook: playbook/nodejs.yml
+- import_playbook: playbook/path.yml
