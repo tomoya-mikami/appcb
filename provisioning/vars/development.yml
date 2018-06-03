@@ -2,3 +2,6 @@ home: "/home/vagrant"
 user: "vagrant"
 ruby_version: "2.4.2"
 node_version: "v8.11.1"
+mysql:
+  user: develop
+  password: develop&1
