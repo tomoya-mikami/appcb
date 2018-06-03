@@ -5,3 +5,4 @@ node_version: "v8.11.1"
 mysql:
   user: develop
   password: develop&1
+  database: development
