@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 2018_05_22_030701) do
 
   create_table "positions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "position_type"
-    t.decimal "longitude", precision: 10
-    t.decimal "latitude", precision: 10
+    t.decimal "longitude", precision: 18, scale: 15
+    t.decimal "latitude", precision: 18, scale: 15
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

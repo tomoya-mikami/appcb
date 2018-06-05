@@ -10,3 +10,7 @@
       apt: name=nginx update_cache=yes
     - name: backup nginx default setting
       copy: src=/etc/nginx/conf.d/default.conf dest=/etc/nginx/conf.d/default.conf.org owner=root group=root mode=0644
+    - name: setup run rails on nginx
+      copy: src=../files/default.conf dest=/etc/nginx/conf.d/default.conf
+    - name: nginx restart
+      shell: service nginx restart

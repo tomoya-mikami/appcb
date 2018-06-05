@@ -5,3 +5,4 @@
 - import_playbook: playbook/nginx.yml
 - import_playbook: playbook/path.yml
 - import_playbook: playbook/mysql.yml
+- import_playbook: playbook/mysql_local_setup.yml
