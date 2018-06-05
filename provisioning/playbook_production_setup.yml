@@ -1,0 +1,6 @@
+- hosts: localhost
+  sudo: yes
+  user: vagrant
+  tasks:
+    - name: set valut_password
+      copy: src=../files/.vault_password dest=/home/vagrant/.vault_password owner=vagrant group=vagrant mode=0600

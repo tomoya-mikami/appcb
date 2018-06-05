@@ -40,4 +40,4 @@
 /.vscode/temp.sql
 
 # Ignore production db password
-/provisioning/vars/.vault_password
+/provisioning/files/.vault_password

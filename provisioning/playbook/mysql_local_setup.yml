@@ -5,4 +5,4 @@
   user: vagrant
   tasks:
     - name: create mysql user
-      mysql_user: name={{ mysql.user }} host=localhost password={{ mysql.password }} priv={{ mysql.database }}.*:ALL,GRANT
+      mysql_user: name={{ database.user }} host=localhost password={{ database.password }} priv={{ database.database }}.*:ALL,GRANT
