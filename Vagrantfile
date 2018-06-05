@@ -73,7 +73,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "production" do |server|
     server.vm.network 'public_network', ip: '133.51.2.56'
-    server.vm.network "forwarded_port", guest: 80, host: 80
     config.vm.provision "shell", privileged: false, :path => "provisioning/ansible_production.sh"
   end
 
