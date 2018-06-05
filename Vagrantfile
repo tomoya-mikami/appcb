@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "../appcb", "/home/vagrant/application"
+  config.vm.synced_folder "../appcb", "/home/vagrant/application", mount_options: ['dmode=777','fmode=755']
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -67,12 +67,13 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "develop" do |server|
     server.vm.network "forwarded_port", guest: 3000, host: 3000
-    server.vm.network "forwarded_port", guest: 80, host: 8080
+    server.vm.network "forwarded_port", guest: 80, host: 80
+    config.vm.provision "shell", privileged: false, :path => "provisioning/ansible.sh"
   end
 
   config.vm.define "production" do |server|
     server.vm.network 'public_network', ip: '133.51.2.56'
+    config.vm.provision "shell", privileged: false, :path => "provisioning/ansible_production.sh"
   end
 
-  config.vm.provision "shell", privileged: false, :path => "provisioning/ansible.sh"
 end

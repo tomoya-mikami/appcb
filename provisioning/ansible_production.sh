@@ -8,4 +8,4 @@ if ! [`which ansible`]; then
   sudo apt-get install -y ansible
 fi
 
-ansible-playbook -vv -i localhost, -c local /vagrant/provisioning/playbook.yml
+ansible-playbook -vv -i localhost, -c local /vagrant/provisioning/playbook_production.yml
