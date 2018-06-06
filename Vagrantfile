@@ -72,8 +72,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "production" do |server|
-    sercer.vm.hostname = 'mind-cpndd.slis.tsukuba.ac.jp'
-    server.vm.network 'public_network', ip: '133.51.2.56'
+    server.vm.hostname = "mind-cpndd.slis.tsukuba.ac.jp"
+    server.vm.network 'public_network', ip: "133.51.2.56"
     config.vm.provision "shell", privileged: false, :path => "provisioning/ansible_production.sh"
   end
 
