@@ -1,0 +1,10 @@
+- hosts: all
+  sudo: yes
+  vars_files:
+  - ../vars/development.yml
+  user: vagrant
+  tasks:
+    - name: add nodebrew path to bash_profile
+      copy: src=../files/nodebrew.sh dest=/etc/profile.d/nodebrew.sh
+    - name: add rbenv path to bash_profile
+      copy: src=../files/rbenv.sh dest=/etc/profile.d/rbenv.sh

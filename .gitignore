@@ -38,3 +38,6 @@
 # Ignore vscode file
 /.vscode/last.sql
 /.vscode/temp.sql
+
+# Ignore production db password
+/provisioning/files/.vault_password

@@ -1,0 +1,20 @@
+- hosts: all
+  vars_files:
+  - ../vars/development.yml
+  sudo: yes
+  user: vagrant
+  tasks:
+    - name: install MySQL package
+      apt: name={{ item }} update_cache=yes
+      with_items:
+        - mysql-server
+        - mysql-client
+        - libmysqld-dev
+        - libmysqlclient-dev
+        - python-mysqldb
+    - name: backup mysql default setting
+      copy: src=/etc/mysql/my.cnf dest=/etc/mysql/my.cnf.org
+    - name: set mysql character set utf8
+      copy: src=../files/my.cnf dest=/etc/mysql/my.cnf
+    - name: restart mysql
+      shell: /etc/init.d/mysql restart

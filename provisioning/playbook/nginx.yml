@@ -1,0 +1,16 @@
+- hosts: all
+  sudo: yes
+  user: vagrant
+  tasks:
+    - name: add nginx PGP key
+      shell: curl http://nginx.org/keys/nginx_signing.key | apt-key add -
+    - name: add nginx repository
+      shell: VCNAME=`cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d= -f2` && sudo -E sh -c "echo \"deb http://nginx.org/packages/ubuntu/ $VCNAME nginx\" >> /etc/apt/sources.list"; VCNAME=`cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d= -f2` && sudo -E sh -c "echo \"deb-src http://nginx.org/packages/ubuntu/ $VCNAME nginx\" >> /etc/apt/sources.list"
+    - name: install nginx
+      apt: name=nginx update_cache=yes
+    - name: backup nginx default setting
+      copy: src=/etc/nginx/conf.d/default.conf dest=/etc/nginx/conf.d/default.conf.org owner=root group=root mode=0644
+    - name: setup run rails on nginx
+      copy: src=../files/default.conf dest=/etc/nginx/conf.d/default.conf
+    - name: nginx restart
+      shell: service nginx restart

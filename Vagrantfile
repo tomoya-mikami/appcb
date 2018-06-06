@@ -24,7 +24,6 @@ Vagrant.configure("2") do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
   # config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.network "forwarded_port", guest: 3000, host: 3000
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -33,7 +32,8 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
+  # 必要に応じて変更
+  # config.vm.network "private_network", ip: "192.168.33.1"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "../appcb", "/home/vagrant/application"
+  config.vm.synced_folder "../appcb", "/home/vagrant/application", mount_options: ['dmode=777','fmode=755']
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -64,27 +64,17 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", privileged: false ,inline: <<-SHELL
-    sudo apt-get update
-    sudo apt-get install -y apache2 sqlite3 libsqlite3-dev build-essential libssl-dev
-    sudo apt-get git
-    git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
-    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
-    echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
-    cat ~/.bash_profile
-    source ~/.bash_profile
-    git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-    rbenv install 2.4.2
-    rbenv global 2.4.2
-    gem install multi_json -v '1.10.1'
-    rbenv exec gem install bundler
-    rbenv rehash
-    gem install rails
-	  source ~/.bash_profile
-    curl -L git.io/nodebrew | perl - setup
-    echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.bash_profile
-    source ~/.bash_profile
-    nodebrew install v8.11.1
-    nodebrew use v8.11.1
-  SHELL
+
+  config.vm.define "develop" do |server|
+    server.vm.network "forwarded_port", guest: 3000, host: 3000
+    server.vm.network "forwarded_port", guest: 80, host: 8080
+    config.vm.provision "shell", privileged: false, :path => "provisioning/ansible.sh"
+  end
+
+  config.vm.define "production" do |server|
+    server.vm.hostname = "mind-cpndd.slis.tsukuba.ac.jp"
+    server.vm.network 'public_network', ip: "133.51.2.56"
+    config.vm.provision "shell", privileged: false, :path => "provisioning/ansible_production.sh"
+  end
+
 end

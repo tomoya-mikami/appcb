@@ -1,0 +1,9 @@
+- hosts: all
+  sudo: true
+  user: vagrant
+  tasks:
+    - name: install sqlite3
+      apt: name={{item}} update_cache=yes cache_valid_time=3600
+      with_items:
+        - sqlite3
+        - libsqlite3-dev

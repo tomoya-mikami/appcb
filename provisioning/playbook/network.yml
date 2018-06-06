@@ -1,0 +1,14 @@
+- hosts: all
+  sudo: true
+  user: vagrant
+  tasks:
+    - name: add dns server
+      lineinfile: dest=/etc/resolvconf/resolv.conf.d/base line='nameserver 130.158.68.25'
+    - name: add dns server
+      lineinfile: dest=/etc/resolvconf/resolv.conf.d/base line='nameserver 130.158.68.26'
+    - name: restart
+      shell: resolvconf -u
+    - name: copy static-routes
+      copy: src=../files/static-routes dest=/etc/network/if-up.d/static-routes owner=root group=root mode=0755
+    - name: exec
+      command: sh /etc/network/if-up.d/static-routes
