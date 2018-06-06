@@ -1,0 +1,8 @@
+- hosts: localhost
+  vars_files:
+  - ../vars/development.yml
+  sudo: yes
+  user: vagrant
+  tasks:
+    - name: create mysql user
+      mysql_user: name={{ database.user }} host=localhost password={{ database.password }} priv={{ database.database }}.*:ALL,GRANT

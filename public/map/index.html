@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="map" style="width: 400px;height: 400px;"></div>
+  <div id="address"></div>
+  <div name="postion">
+    <input type="text" name="lat" id="lat">
+    <input type="text" name="lng" id="lng">
+  </div>
+  <div name="description">
+    ここで何がありましたか？ : <input type="text" name="description" id="description">
+  </div>
+  <div name="submit">
+    <button type="button" id="pos_send">送信</button>
+  </div>
+  <script src="map/map.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0AFw2GoFMaCGYX1COZ7BZL04fAKONrvM&callback=initMap" async defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</body>
+</html>

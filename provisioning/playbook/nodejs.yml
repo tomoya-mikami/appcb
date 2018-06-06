@@ -1,0 +1,14 @@
+- hosts: all
+  sudo: no
+  vars_files:
+  - ../vars/development.yml
+  user: vagrant
+  tasks:
+    - name: Install nodebrew
+      shell: curl -L git.io/nodebrew | perl - setup
+      args:
+        creates: "{{ home }}/.nodebrew"
+    - name: create nodebrew install directory
+      file: path={{ home }}/.nodebrew/default/src state=directory owner=vagrant group=vagrant mode=0775
+    - name: install node.js
+      shell: export NODEBREW_ROOT={{ home }}/.nodebrew/current; export PATH=$NODEBREW_ROOT/bin:$PATH; echo N | nodebrew install {{ node_version }}; nodebrew use {{ node_version }}

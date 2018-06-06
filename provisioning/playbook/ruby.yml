@@ -1,0 +1,19 @@
+- hosts: all
+  vars_files:
+  - ../vars/development.yml
+  user: vagrant
+  tasks:
+    - name: install rbenv
+      git: repo=https://github.com/sstephenson/rbenv.git
+           dest={{ home }}/.rbenv
+           version=master
+    - name: install ruby_build
+      git: repo=https://github.com/sstephenson/ruby-build.git
+           dest={{ home }}/.rbenv/plugins/ruby-build
+           version=master
+    - name: Install ruby {{ ruby_version }}
+      shell: export RBENV_ROOT={{ home }}/.rbenv; export PATH=$RBENV_ROOT/bin:$PATH; echo N | rbenv install {{ ruby_version }}; rbenv global {{ ruby_version }}
+    - name: Install multi_json
+      shell: export RBENV_ROOT={{ home }}/.rbenv; export PATH=$RBENV_ROOT/bin:$PATH; echo N | rbenv exec gem install multi_json -v '1.10.1'
+    - name: install bundler
+      shell: export RBENV_ROOT={{ home }}/.rbenv; export PATH=$RBENV_ROOT/bin:$PATH; echo N | rbenv exec gem install bundler; rbenv rehash
