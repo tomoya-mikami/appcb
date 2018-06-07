@@ -8,7 +8,7 @@ class PositionController < ApplicationController
   end
 
   def create
-    position = Position.new(latitude: params[:latitude], longitude: params[:longitude], description: params[:description], position_type: params[:position_type])
+    position = Position.new(latitude: params[:latitude], longitude: params[:longitude], description: params[:description], position_type: params[:position_type], disaster_id: params[:disaster_id])
     response = response_init
     if position.save
       response['message'] = '保存しました'
