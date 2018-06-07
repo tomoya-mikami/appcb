@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'disasters/index'
   get 'static/map'
   get 'static/check'
   get 'static/hearing'
