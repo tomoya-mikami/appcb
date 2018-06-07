@@ -6,4 +6,5 @@
 - import_playbook: playbook/path.yml
 - import_playbook: playbook/mysql.yml
 - import_playbook: playbook/mysql_production_setup.yml
+- import_playbook: playbook/imagemagick.yml
 - import_playbook: playbook/network.yml
