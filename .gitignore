@@ -41,3 +41,6 @@
 
 # Ignore production db password
 /provisioning/files/.vault_password
+
+# Ignore uploads image
+/public/uploads/
