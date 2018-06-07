@@ -13,12 +13,22 @@ Things you may want to cover:
 
 * Database creation
 
+positions
+
 |name           |type     |null   |default  |description  |
 |---------------|---------|-------|---------|-------------|
 |position_type  |int      |false  |0        |送信元        |
 |longitude      |decimal  |false  |999      |緯度          |
 |latitude       |decimal  |false  |999      |経度          |
+|disaster_id    |integer  |false  |         |災害の種類     |
 |description    |string   |false  |         |何があったか   |
+
+disaster
+
+|name           |type     |null   |default  |description  |
+|---------------|---------|-------|---------|-------------|
+|disaster_name  |string   |false  |         |災害の名称    |
+|image          |string   |false  |         |災害のアイコン |
 
 * Database initialization
 

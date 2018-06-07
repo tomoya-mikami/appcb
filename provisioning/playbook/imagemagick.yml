@@ -1,0 +1,8 @@
+- hosts: all
+  sudo: yes
+  user: vagrant
+  tasks:
+    - name: install imagemagick
+      apt: name=imagemagick update_cache=yes cache_valid_time=3600
+    - name: install libmagick++-dev
+      apt: name=libmagick++-dev update_cache=yes cache_valid_time=3600
