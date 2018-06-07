@@ -1,5 +1,7 @@
 // google mapの初期位置
 var defaultPostion = {lat: 36.090707, lng: 140.098846}
+var now_index = 0;
+var marker_array = [];
 function initMap() {
 	// Create a map object and specify the DOM element for display.
 	var map = new google.maps.Map(document.getElementById('map'), {
@@ -25,13 +27,17 @@ function getClickLatLng(lat_lng, map) {
 		{
 			text = result[0]["formatted_address"];
 		}
-		document.getElementById('address').innerHTML = `<p>${text}</p>`;
+		document.getElementById('address').innerHTML = `<p>住所 : ${text}</p>`;
 		console.log('success');
 		console.log(data);
 	}).fail((data) => {
 		console.log('fail');
 		console.log(data);
 	});
+
+	if(marker_array[now_index]) {
+		marker_array[now_index].setMap(null);
+	}
 
 	// 座標を表示
 	document.getElementById('lat').value = lat_lng.lat();
@@ -42,6 +48,7 @@ function getClickLatLng(lat_lng, map) {
 	  position: lat_lng,
 	  map: map
 	});
+	marker_array[now_index] = marker;
 
 	// 座標の中心をずらす
 	// http://syncer.jp/google-maps-javascript-api-matome/map/method/panTo/
@@ -64,7 +71,8 @@ document.getElementById('pos_send').onclick = function() {
     console.log(data);
     document.getElementById('lat').value = '';
     document.getElementById('lng').value = '';
-    document.getElementById('description').value = '';
+		document.getElementById('description').value = '';
+		now_index++;
   }).fail(function(jqXHR, textStatus, errorThrown){
     console.log(jqXHR);
     console.log(textStatus);
