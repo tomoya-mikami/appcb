@@ -8,3 +8,4 @@
 - import_playbook: playbook/mysql_production_setup.yml
 - import_playbook: playbook/imagemagick.yml
 - import_playbook: playbook/network.yml
+- import_playbook: playbook/lesencrypt.yml
