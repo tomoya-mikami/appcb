@@ -1,44 +1,54 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* 初めに行うこと
+  1. secrets_sample.ymlを複製してsecrets.ymlにリネーム、各種キーを設定する
+  2. application/provisioning/files/.vault_password_sampleをホームに.vault_passwordという名前でコピーし、いつものパスワードを入力
+  3. applicationディレクトリに移動し以下のコマンドを順に入力
+      * bundle install
+      * bundle exec rails db:create
+      * bundle exec rails db:migrate
+      * bundle exec rails db:seed
 
-Things you may want to cover:
+* 本番環境反映
+
+  1. 本番環境にログイン
+  2. masterをプルする
+  3. applicationディレクトリに移動, sh start.shと打つ
 
 * Ruby version
 
-* System dependencies
-
-* Configuration
+  2.4.2
 
 * Database creation
 
-positions
+  positions
 
-|name           |type     |null   |default  |description  |
-|---------------|---------|-------|---------|-------------|
-|position_type  |int      |false  |0        |送信元        |
-|longitude      |decimal  |false  |999      |緯度          |
-|latitude       |decimal  |false  |999      |経度          |
-|disaster_id    |integer  |false  |         |災害の種類     |
-|description    |string   |false  |         |何があったか   |
+  |name           |type     |null   |default  |description  |
+  |---------------|---------|-------|---------|-------------|
+  |position_type  |int      |false  |0        |送信元        |
+  |longitude      |decimal  |false  |999      |緯度          |
+  |latitude       |decimal  |false  |999      |経度          |
+  |disaster_id    |integer  |false  |         |災害の種類     |
+  |description    |string   |false  |         |何があったか   |
 
-disaster
+  disaster
 
-|name           |type     |null   |default  |description  |
-|---------------|---------|-------|---------|-------------|
-|disaster_name  |string   |false  |         |災害の名称    |
-|image          |string   |false  |         |災害のアイコン |
+  |name           |type     |null   |default  |description  |
+  |---------------|---------|-------|---------|-------------|
+  |disaster_name  |string   |false  |         |災害の名称    |
+  |image          |string   |false  |         |災害のアイコン |
 
 * Database initialization
+  1. bundle exec rails db:create
+  2. bundle exec rails db:migrate
+  3. bundle exec rails db:seed(初回のみ、管理者ページ用のアカウントが発行されます)
+
+  本番環境で動かす場合はまず開発環境で、ansibleで暗号化されているファイルを編集してください. vagrantでログインし, /application/provisioning/varsに移動、以下のコマンドで編集できます
+
+  ansible-vault edit secret.yml --vault-password-file ~/.vault_password
+
+  特に編集の必要がなければそのままにしておいてください
 
 * How to run the test suite
-  - テストではrpsecを用いる
-  - command : bundle exec rails spec or rails spec
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* 初めに行うこと
-  - secrets_sample.ymlを複製してsecrets.ymlにリネーム、各種キーを設定する
+  * テストではrpsecを用いる
+  * command : bundle exec rails spec or rails spec
