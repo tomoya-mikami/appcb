@@ -15,15 +15,10 @@
             <div id="map" style="width: 100%;height: 100vh;"></div>
         </div>
         <div id="addressform" class="col-4">
-            <div id="address">住所 : </div>
-            <div id="postion">
-              <p> 緯度 : <input type="text" name="lat" id="lat"></p>
-              <p> 経度 : <input type="text" name="lng" id="lng"></p>
-            </div>
-            <div id="disaster">
-              <p> 災害の種類 : <select name="disaster_id" id="disaster_id"></select>
-              </p>
-            </div>
+            <input type="hidden" name="lat" id="lat">
+            <input type="hidden" name="lng" id="lng">
+            <input type="hidden" name="disaster_id" id="disaster_id">
+            <table id="disaster_table" class="table table-bordered"></table>
             <div name="description">
               ここで何がありましたか？ : <input type="text" name="description" id="description">
             </div>
@@ -38,6 +33,5 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
   <script src="map/map.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0AFw2GoFMaCGYX1COZ7BZL04fAKONrvM&callback=initMap" async defer></script>
-  <script>init()</script>
 </body>
 </html>

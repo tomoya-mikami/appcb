@@ -1,11 +1,52 @@
 // google mapの初期位置
 var defaultPostion = {lat: 36.090707, lng: 140.098846}
-var map = '';
+var map = null;
 marker = [];
 var disasters;
 
 // 災害情報表示用のデータを持ってくる
-function init() {
+function initMap() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        console.log(position);
+        latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        // 地図の作成
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: latLng,
+            zoom: 18
+        });
+
+        var my_marker = new google.maps.Marker({
+					position: latLng,
+					map: map,
+        });
+        
+        getPostion();
+      },
+      function(error) {
+        console.log(error);
+      }
+    );
+  } else {
+    alert('GPSを利用できません');
+  }
+
+  if ( ! map) {
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: defaultPostion,
+			zoom: 14
+		});
+	
+		map.addListener('click', function(e) {
+			// console.log(e);
+			getClickLatLng(e.latLng, map);
+    });
+
+    getPostion();
+	}
+
 	$.ajax({
 		type: "Get",
 		url: location.protocol + "/disasters/index/",
@@ -13,24 +54,11 @@ function init() {
 	}).done(function(data){
 		console.log(data);
 		disasters = data['results'];
-		disasters.forEach(element => {
-			$("#disaster_id").append($("<option>").val(element['id']).text(element['disaster_name']));
-		});
 	}).fail(function(jqXHR, textStatus, errorThrown){
 		console.log(jqXHR);
 		console.log(textStatus);
 		console.log(errorThrown);
 	})
-}
-
-function initMap() {
-	// Create a map object and specify the DOM element for display.
-	map = new google.maps.Map(document.getElementById('map'), {
-		center: defaultPostion,
-		zoom: 14
-  });
-  
-  getPostion();
 }
 
 function set_marker(_lat, _lng, _icon, _map) {
