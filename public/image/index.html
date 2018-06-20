@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-  <link rel="stylesheet" href="/map/style.css">
+  <link rel="stylesheet" href="/image/style.css">
 	<title>Document</title>
 </head>
 <body>
@@ -19,7 +19,7 @@
           </div>
           <!-- Modal body -->
           <div class="modal-body">
-              <p>位置情報を送信しました。ご協力ありがとうございます。</p>
+              <p>写真を送信しました。ご協力ありがとうございます。</p>
           </div>
           <!-- Modal footer -->
           <div class="modal-footer">
@@ -28,34 +28,26 @@
         </div>
       </div>
     </div>
-    <div class="row" style="width: 100%;height: 100vh">
-        <div id="mapform" class="col-8">
+    <form id="positionform"></form>
+      <input type="hidden" name="latitude" id="latitude">
+      <input type="hidden" name="longitude" id="longitude">
+      <div class="row" style="width: 100%;height: 100vh">
+        <div id="mapform" class="col-xs-12 col-sm-8 col-md-8 col-lg-8 col-xl-8">
             <div id="map" style="width: 100%;height: 100vh;"></div>
         </div>
-        <div id="addressform" class="col-4">
-            <div id="formexplain">
-                〇 × △のマーカーの位置を探しています. ご協力よろしくお願いいたします.</br>
-                1. 見つけたマーカーを選択(選択すると背景が青くなります)</br>
-                2. 地図上のマーカーのあった位置をタッチ</br>
-                3. 間違えがなければ送信</br>
-            </div>
-            <input type="hidden" name="lat" id="lat">
-            <input type="hidden" name="lng" id="lng">
-            <input type="hidden" name="disaster_id" id="disaster_id">
-            <table id="disaster_table" class="table table-bordered"></table>
-            <div name="description">
-              スタッフ用コメントボックス : <input type="text" name="description" id="description" class="form-control" placeholder="何か報告することがあれば入力してください">
-            </div>
-            <div name="submit">
-              <button type="button" id="pos_send" class="btn btn-primary btn-lg btn-block">送信</button>
-            </div>
+        <div id="addressform" class=".d-none.d-sm-block col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div name="submit">
+            <input type="file" name="image" id="image">
+            <button type="button" id="pos_send" class="btn btn-primary btn-lg btn-block" onchange="send_position()">送信</button>
+          </div>
         </div>
-    </div>
+      </div>
+    </form>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-  <script src="map/map.js"></script>
+  <script src="image/image.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0AFw2GoFMaCGYX1COZ7BZL04fAKONrvM&callback=initMap" async defer></script>
 </body>
 </html>
