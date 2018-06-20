@@ -15,6 +15,15 @@
   2. masterをプルする
   3. applicationディレクトリに移動, sh start.shと打つ
 
+* 画像設定
+
+  画像をアップロードするとサイズを変更した複数の画像が生成されます
+
+  - original max 1920*1080
+  - icon 40*40
+  - table 60*60
+  - map_information 600*450
+
 * Ruby version
 
   2.4.2

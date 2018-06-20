@@ -1,4 +1,7 @@
 class PositionController < ApplicationController
+
+  protect_from_forgery :except=> [:create]
+
   def index
     response = response_init
     positions = Position.all
@@ -8,7 +11,8 @@ class PositionController < ApplicationController
   end
 
   def create
-    position = Position.new(latitude: params[:latitude], longitude: params[:longitude], description: params[:description], position_type: params[:position_type], disaster_id: params[:disaster_id])
+    puts params.inspect
+    position = Position.new(latitude: params[:latitude], longitude: params[:longitude], description: params[:description], position_type: params[:position_type], disaster_id: params[:disaster_id], image: params[:image])
     response = response_init
     if position.save
       response['message'] = '保存しました'

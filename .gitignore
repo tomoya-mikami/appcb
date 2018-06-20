@@ -41,6 +41,8 @@
 
 # Ignore production db password
 /provisioning/files/.vault_password
+/provisioning/files/appcb_mlab_authorized_keys
+/provisioning/files/appcb_mlab_private_key
 
 # Ignore uploads image
 /public/uploads/

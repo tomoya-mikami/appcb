@@ -1,0 +1,23 @@
+- hosts: all
+  sudo: true
+  user: vagrant
+  tasks:
+    - name: create group
+      group:
+        name: appcb
+    - name: Create mlab user and join fusioncomp group
+      user:
+        name: mlab
+        password: $1$SALT$hAfeHM2fWY.1dQLIOlHD00
+        group: appcb
+
+- hosts: all
+  become: yes
+  become_user: mlab
+  tasks:
+    - name: mkdir .ssh in /home/mlab
+      file: path=/home/mlab/.ssh state=directory
+    - name: Set authorized key
+      copy: src=../files/appcb_mlab_authorized_keys dest=/home/mlab/.ssh/authorized_keys owner=mlab mode=0600
+    - name: add github ssh key
+      copy: src=../files/appcb_mlab_private_key dest=/home/mlab/.ssh/mlab_private_key owner=mlab mode=0600

@@ -51,23 +51,6 @@ function initMap() {
 			getClickLatLng(e.latLng, map);
 		});
 	}
-
-	$.ajax({
-		type: "Get",
-		url: location.protocol + "/disasters/index/",
-		dataType: 'json',
-	}).done(function(data){
-    var set_disater_id = 0;
-		disasters = data['results'];
-    disasters.forEach(element => {
-			$("#disaster_table").append($(`<tr id= "disaster_table_${set_disater_id}" onclick="change_marker(${set_disater_id++})"><td><img src="${element['image']['table_image']['url']}">${element['disaster_name']}</td></tr>`));
-    });
-    console.log(disasters);
-	}).fail(function(jqXHR, textStatus, errorThrown){
-		console.log(jqXHR);
-		console.log(textStatus);
-		console.log(errorThrown);
-	});
 }
 
 // マーカーの設置とフォームの作成
@@ -78,14 +61,13 @@ function getClickLatLng(lat_lng, map) {
 	}
 
 	// 送信する座標をセット
-	document.getElementById('lat').value = lat_lng.lat();
-	document.getElementById('lng').value = lat_lng.lng();
+	document.getElementById('latitude').value = lat_lng.lat();
+	document.getElementById('longitude').value = lat_lng.lng();
 
 	// マーカーを設置
 	var marker = new google.maps.Marker({
 	  position: lat_lng,
 		map: map,
-		icon: disasters[disaster_index]['image']['icon']['url'],
   });
   marker_array[now_index] = marker;
 
@@ -103,7 +85,7 @@ function getClickLatLng(lat_lng, map) {
     }
     markerInfo(marker, adress);
 		//document.getElementById('address').innerHTML = `<p>住所 : ${adress}</p>`;
-		console.log('success');
+    console.log('success');
 	}).fail((data) => {
 		console.log('fail');
 		console.log(data);
@@ -131,28 +113,36 @@ function change_marker(_id) {
   disaster_index = _id;
   document.getElementById(`disaster_table_${disaster_index}`).classList.add('table-info');
   document.getElementById('disaster_id').value = disasters[disaster_index]['id'];
-  if (marker_array[now_index]) marker_array[now_index].setIcon(disasters[disaster_index]['image']['icon']['url']);
+  if (marker_array[now_index]) marker_array[now_index].setIcon(disasters[disaster_index]['image']['url']);
+}
+
+// モーダルを消す関数
+function success_modal_hide() {
+  $('body').removeClass('modal-open');
+  $('.modal-backdrop').remove();
+  $('#success_modal').removeClass('show');  
+}
+
+function fail_modal_hide() {
+  $('#fail_modal').modal('hide');
 }
 
 // ajaxでフォームを送る
-document.getElementById('pos_send').onclick = function() {
-
+function send_position() {
+  var fd = new FormData($('#positionform').get(0));
+  console.log(fd);
   $.ajax({
     type: "POST",
     url: location.protocol + "/position/create/",
     dataType: 'json',
-    data: {
-      latitude: document.getElementById('lat').value,
-      longitude: document.getElementById('lng').value,
-      description: document.getElementById('description').value,
-			position_type: 1,
-			disaster_id: $("#disaster_id").val()
-    }
+    data: fd,
+    processData: false,
+    contentType: false,
   }).done(function(data){
     console.log(data);
-    document.getElementById('lat').value = '';
-    document.getElementById('lng').value = '';
-    document.getElementById('description').value = '';
+    document.getElementById('latitude').value = '';
+    document.getElementById('longitude').value = '';
+    document.getElementById('image').value = '';
     $('#success_modal').modal();
 		now_index++;
   }).fail(function(jqXHR, textStatus, errorThrown){
@@ -160,7 +150,6 @@ document.getElementById('pos_send').onclick = function() {
     console.log(textStatus);
     console.log(errorThrown);
   })
-
 }
 
 // セレクトボックスの値が変わったときにアイコンを変更する
