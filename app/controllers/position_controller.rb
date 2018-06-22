@@ -11,15 +11,21 @@ class PositionController < ApplicationController
   end
 
   def create
+    puts
+    puts 'params'
+    puts params[:latitude]
+    puts params[:longitude]
     puts params.inspect
+    puts 'aaaaa'
     position = Position.new(latitude: params[:latitude], longitude: params[:longitude], description: params[:description], position_type: params[:position_type], disaster_id: params[:disaster_id], image: params[:image])
     response = response_init
     if position.save
-      response['message'] = '保存しました'
+      response['message']['success'] = '保存しました'
       response['status'] = :create
     else
       response['error'] = true
-      response['message'] = '保存に失敗しました'
+      response['message']['fail'] = '保存に失敗しました'
+      response['message']['error'] = position.errors.full_messages
       response['status'] = :unprocessable_entity
     end
 
@@ -35,7 +41,7 @@ class PositionController < ApplicationController
   def response_init
     response = {
       'error' => false,
-      'messegae' => {},
+      'message' => {},
       'status' => '',
       'results' => {}
     }

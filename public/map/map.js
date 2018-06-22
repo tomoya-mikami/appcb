@@ -150,11 +150,20 @@ document.getElementById('pos_send').onclick = function() {
     }
   }).done(function(data){
     console.log(data);
-    document.getElementById('lat').value = '';
-    document.getElementById('lng').value = '';
-    document.getElementById('description').value = '';
-    $('#success_modal').modal();
-		now_index++;
+    if (data['error'])
+    {
+      document.getElementById('error-modal-body').innerHTML = '';
+      data['message']['error'].forEach(element => {
+        document.getElementById('error-modal-body').innerHTML += `<p>${element}</p>`;
+      });
+      $('#error_modal').modal();
+    } else {
+      document.getElementById('lat').value = '';
+      document.getElementById('lng').value = '';
+      document.getElementById('description').value = '';
+      $('#success_modal').modal();
+      now_index++;
+    }
   }).fail(function(jqXHR, textStatus, errorThrown){
     console.log(jqXHR);
     console.log(textStatus);
@@ -170,3 +179,22 @@ $("#disaster_id").change(function() {
 		marker_array[now_index].setIcon(disasters[select_disaster_id]['image']['url']);
 	}
 })
+
+function test_jquery() {
+  $.ajax({
+    type: "POST",
+    url: "https://mind-cpndd.slis.tsukuba.ac.jp/position/create/",
+    dataType: 'json',
+    data: {
+      latitude: 138.882414,
+      longitude: 37.673151,
+			position_type: 1,
+    }
+  }).done(function(data){
+    console.log(data);
+  }).fail(function(jqXHR, textStatus, errorThrown){
+    console.log(jqXHR);
+    console.log(textStatus);
+    console.log(errorThrown);
+  })
+}

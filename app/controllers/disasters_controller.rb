@@ -17,7 +17,7 @@ class DisastersController < ActionController::Base
     def response_init
       response = {
         'error' => false,
-        'messegae' => {},
+        'message' => {},
         'status' => '',
         'results' => {}
       }

@@ -117,15 +117,6 @@ function change_marker(_id) {
 }
 
 // モーダルを消す関数
-function success_modal_hide() {
-  $('body').removeClass('modal-open');
-  $('.modal-backdrop').remove();
-  $('#success_modal').removeClass('show');  
-}
-
-function fail_modal_hide() {
-  $('#fail_modal').modal('hide');
-}
 
 // ajaxでフォームを送る
 function send_position() {
@@ -140,11 +131,20 @@ function send_position() {
     contentType: false,
   }).done(function(data){
     console.log(data);
-    document.getElementById('latitude').value = '';
-    document.getElementById('longitude').value = '';
-    document.getElementById('image').value = '';
-    $('#success_modal').modal();
-		now_index++;
+    if (data['error'])
+    {
+      document.getElementById('error-modal-body').innerHTML = '';
+      data['message']['error'].forEach(element => {
+        document.getElementById('error-modal-body').innerHTML += `<p>${element}</p>`;
+      });
+      $('#error_modal').modal();
+    } else {
+      document.getElementById('latitude').value = '';
+      document.getElementById('longitude').value = '';
+      document.getElementById('image').value = '';
+      $('#success_modal').modal();
+      now_index++;
+    }
   }).fail(function(jqXHR, textStatus, errorThrown){
     console.log(jqXHR);
     console.log(textStatus);

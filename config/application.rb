@@ -18,6 +18,7 @@ module Appcb
     config.action_controller.action_on_unpermitted_parameters = :log
     config.time_zone = 'Tokyo'
     config.active_record.default_timezone = :local
+    config.i18n.default_locale = :ja
     
     config.middleware.insert_before ActionDispatch::Static, Rack::Cors do
       allow do

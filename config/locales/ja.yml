@@ -1,0 +1,6 @@
+ja:
+  models:
+    position: 位置情報
+  attributes:
+    longitude: 緯度
+    latitude: 経度
