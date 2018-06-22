@@ -9,7 +9,6 @@ function initMap() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       function(position) {
-        console.log(position);
         latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
         // 地図の作成
@@ -22,8 +21,6 @@ function initMap() {
 					position: latLng,
 					map: map,
         });
-        
-        getPostion();
       },
       function(error) {
         console.log(error);
@@ -43,8 +40,6 @@ function initMap() {
 			// console.log(e);
 			getClickLatLng(e.latLng, map);
     });
-
-    getPostion();
 	}
 
 	$.ajax({
@@ -52,17 +47,27 @@ function initMap() {
 		url: location.protocol + "/disasters/index/",
 		dataType: 'json',
 	}).done(function(data){
-		console.log(data);
-		disasters = data['results'];
+    console.log(data['error']);
+    disasters = data['results'];
 	}).fail(function(jqXHR, textStatus, errorThrown){
 		console.log(jqXHR);
 		console.log(textStatus);
 		console.log(errorThrown);
-	})
+  })
+
+  setInterval("getPostion()",3000);
 }
 
 function set_marker(_lat, _lng, _icon, _map) {
-    return new google.maps.Marker({ position: {lat: _lat, lng: _lng}, icon: _icon, map: _map });
+    var marker =  new google.maps.Marker({ 
+      position: {lat: _lat, lng: _lng}, 
+      icon: _icon, 
+      map: _map 
+    });
+    marker.addListener('click', function(){
+      markerInfo(marker, _lat, _lng);
+    });
+    return marker;
 }
 
 function getPostion() {
@@ -71,13 +76,12 @@ function getPostion() {
     url: location.protocol + "/position/index/",
     dataType: 'json',
   }).done(function(data){
-    console.log(data);
     var disaster_id = 0;
     data['results'].forEach(element => {
       var disaster_icon = null;
       if (element['disaster_id']) {
         disaster_id = element['disaster_id'] - 1;
-        disaster_icon = disasters[disaster_id]['image']['url'];
+        disaster_icon = disasters[disaster_id]['image']['icon']['url'];
       } 
       set_marker(Number(element['latitude']), Number(element['longitude']), disaster_icon, map);
     });
@@ -86,4 +90,11 @@ function getPostion() {
     console.log(textStatus);
     console.log(errorThrown);
   })
+}
+
+function markerInfo(marker, _lat, _lng) {
+  var content = `<p style="font-size: 2vh;">緯度 : ${_lat} 経度 : ${_lng}</p>`
+  new google.maps.InfoWindow({
+      content: content
+  }).open(marker.getMap(), marker);
 }
