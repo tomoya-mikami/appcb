@@ -28,7 +28,23 @@
         </div>
       </div>
     </div>
-    <form id="positionform"></form>
+    <div class="modal fade" id="error_modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">送信に失敗しました</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body" id="error-modal-body"></div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">閉じる</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form id="positionform">
       <input type="hidden" name="latitude" id="latitude">
       <input type="hidden" name="longitude" id="longitude">
       <div class="row" style="width: 100%;height: 100vh">
@@ -36,9 +52,15 @@
             <div id="map" style="width: 100%;height: 100vh;"></div>
         </div>
         <div id="addressform" class=".d-none.d-sm-block col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          <div id="formexplain">
+              マーカーの写真の収集を行っています. ご協力よろしくお願いいたします.</br>
+              1. 地図上のマーカーのあった位置をタッチ</br>
+              2. ファイルを選択から画像を選ぶ</br>
+              3. 送信ボタンを押す
+          </div>
           <div name="submit">
             <input type="file" name="image" id="image">
-            <button type="button" id="pos_send" class="btn btn-primary btn-lg btn-block" onchange="send_position()">送信</button>
+            <button type="button" id="pos_send" class="btn btn-primary btn-lg btn-block" onclick="send_position()">送信</button>
           </div>
         </div>
       </div>
