@@ -70,7 +70,7 @@ function getPostion() {
       var position_image = null;
       if (element['disaster_id']) {
         disaster_id = element['disaster_id'] - 1;
-        if (disasters[disaster_id]['image']['icon']['url']) disaster_icon = disasters[disaster_id]['image']['icon']['url'];
+        if (disasters[disaster_id] && disasters[disaster_id]['image']['icon']['url']) disaster_icon = disasters[disaster_id]['image']['icon']['url'];
       } else if (element['image']) {
         if (element['image']['icon']['url']) disaster_icon = element['image']['icon']['url'];
         if (element['image']['map_information']['url']) position_image = element['image']['map_information']['url'];
