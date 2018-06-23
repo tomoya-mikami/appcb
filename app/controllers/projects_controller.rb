@@ -17,7 +17,7 @@ class ProjectsController < ApplicationController
   private
 
   def project_check
-    @project = Project.where(name: params[:project_name]).first
+    @project = Project.find_by(name: params[:project_name])
     if @project.nil?
       raise ActiveRecord::RecordNotFound.new("プロジェクトが存在しません")
     end
