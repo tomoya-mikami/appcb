@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'projects/:project_name/map', to: 'projects#map'
+  get 'projects/:project_name/analytics', to: 'projects#analytics'
+  get 'projects/:project_name/image', to: 'projects#image'
   get 'disasters/index'
   get 'static/map'
   get 'static/check'
