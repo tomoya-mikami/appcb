@@ -129,6 +129,7 @@ function change_marker(_id) {
 // ajaxでフォームを送る
 function send_position() {
   var fd = new FormData($('#positionform').get(0));
+  fd.append('project_token', project_token);
   console.log(fd);
   $.ajax({
     type: "POST",

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_22_060530) do
+ActiveRecord::Schema.define(version: 2018_06_23_150603) do
 
   create_table "active_admin_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "namespace"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(version: 2018_06_22_060530) do
     t.datetime "updated_at", null: false
     t.integer "disaster_id"
     t.string "image"
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_positions_on_project_id"
   end
 
   create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -67,6 +69,8 @@ ActiveRecord::Schema.define(version: 2018_06_22_060530) do
     t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "position_id"
+    t.index ["position_id"], name: "index_projects_on_position_id"
     t.index ["token"], name: "index_projects_on_token", unique: true
   end
 
@@ -80,4 +84,6 @@ ActiveRecord::Schema.define(version: 2018_06_22_060530) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "positions", "projects"
+  add_foreign_key "projects", "positions"
 end
