@@ -1,7 +1,10 @@
 // google mapの初期位置
 var defaultPostion = {lat: 36.090707, lng: 140.098846}
+var map;
 var now_index = 0;
 var marker_array = [];
+var get_marker_array = [];
+var position_id = 0;
 var disasters;
 var disaster_index = 0;
 var project_token = '';
@@ -25,10 +28,11 @@ function initMap() {
 				latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
  
         // 地図の作成
-        var map = new google.maps.Map(document.getElementById('map'), {
+        map = new google.maps.Map(document.getElementById('map'), {
             center: latLng,
             zoom: 18
-				});
+        });
+        console.log(map);
 
 				var my_marker = new google.maps.Marker({
 					position: latLng,
@@ -38,8 +42,9 @@ function initMap() {
 				map.addListener('click', function(e) {
 					// console.log(e);
 					getClickLatLng(e.latLng, map);
-				});
-			},
+        });
+        setInterval("getPostion()",3000);
+      },
 			function(error) {
 				console.log(error);
 			}
@@ -49,7 +54,7 @@ function initMap() {
 	}
 
 	if ( ! map) {
-		var map = new google.maps.Map(document.getElementById('map'), {
+		  map = new google.maps.Map(document.getElementById('map'), {
 			center: defaultPostion,
 			zoom: 14
 		});
@@ -78,7 +83,7 @@ function initMap() {
 		console.log(jqXHR);
 		console.log(textStatus);
 		console.log(errorThrown);
-	});
+  });
 }
 
 // マーカーの設置とフォームの作成
@@ -190,4 +195,76 @@ $("#disaster_id").change(function() {
 		var select_disaster_id = $("#disaster_id").val() - 1;
 		marker_array[now_index].setIcon(disasters[select_disaster_id]['image']['url']);
 	}
-})
+});
+
+function getPostion() {
+  $.ajax({
+    type: "Get",
+    url: location.protocol + "/position/index/",
+    dataType: 'json',
+    data: {
+      project_token: project_token,
+      position_id: position_id,
+    },
+  }).done(function(data){
+    var disaster_id = 0;
+    if (data['error']) {
+      console.log(data);
+    } else {
+      data['results'].forEach(element => {
+        var disaster_icon = null;
+        var position_image = null;
+        if (element['disaster_id']) {
+          disaster_id = element['disaster_id'] - 1;
+          if (disasters[disaster_id] && disasters[disaster_id]['image']['icon']['url']) disaster_icon = disasters[disaster_id]['image']['icon']['url'];
+        } else if (element['image']) {
+          if (element['image']['icon']['url']) disaster_icon = element['image']['icon']['url'];
+          if (element['image']['map_information']['url']) position_image = element['image']['map_information']['url'];
+        }
+        get_marker_array.push(set_marker(Number(element['latitude']), Number(element['longitude']), disaster_icon, map, position_image));
+      });
+      if (data['results'].length > 0) {
+        last_position = data['results'][data['results'].length - 1];
+        position_id = last_position.id
+      }
+    }
+  }).fail(function(jqXHR, textStatus, errorThrown){
+    console.log(jqXHR);
+    console.log(textStatus);
+    console.log(errorThrown);
+  })
+}
+
+function set_marker(_lat, _lng, _icon, _map, image = null) {
+  var marker =  new google.maps.Marker({ 
+    position: {lat: _lat, lng: _lng}, 
+    icon: _icon, 
+    map: _map 
+  });
+  marker.addListener('click', function(){
+    getmarkerInfo(marker, _lat, _lng, image);
+  });
+  marker.setVisible(false);
+  return marker;
+}
+
+function getmarkerInfo(marker, _lat, _lng, image = null) {
+  console.log(image);
+  var content = `<p style="font-size: 2vh;">緯度 : ${_lat} 経度 : ${_lng}</p>`
+  if (image) content += `<p><img src="${location.protocol +image}"></p>`
+  new google.maps.InfoWindow({
+      content: content
+  }).open(marker.getMap(), marker);
+}
+
+function VisibleGetMarker() {
+  get_marker_array.forEach(element => {
+    element.setVisible(true);
+  });
+}
+
+function UnVisibleGetMarker() {
+  get_marker_array.forEach(element => {
+    element.setVisible(false);
+  });
+}
