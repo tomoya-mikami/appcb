@@ -56,8 +56,17 @@ function initMap() {
 		url: location.protocol + "/disasters/index/",
 		dataType: 'json',
 	}).done(function(data){
-    console.log(data['error']);
-    disasters = data['results'];
+    $("#disaster_table").append($(`<tr><td>マーカーと災害の対応表</td></tr>`));
+    if ( ! data['error']) {
+      console.log(data);
+      disasters = data['results'];
+      disasters.forEach(element => {
+        $("#disaster_table").append($(`<tr><td><img src="${element['image']['table_image']['url']}">${element['disaster_name']}</td></tr>`));
+      });
+    } else {
+      console.log(data['message']);
+      disasters = [];
+    }
 	}).fail(function(jqXHR, textStatus, errorThrown){
 		console.log(jqXHR);
 		console.log(textStatus);
