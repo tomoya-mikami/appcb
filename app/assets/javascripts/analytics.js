@@ -100,7 +100,11 @@ function getPostion() {
           if (element['image']['icon']['url']) disaster_icon = element['image']['icon']['url'];
           if (element['image']['map_information']['url']) position_image = element['image']['map_information']['url'];
         }
-        set_marker(Number(element['latitude']), Number(element['longitude']), disaster_icon, map, position_image);
+        utm_e = null;
+        utm_n = null;
+        if (element['utm_e']) utm_e = element['utm_e'];
+        if (element['utm_n']) utm_n = element['utm_n'];
+        set_marker(Number(element['latitude']), Number(element['longitude']), disaster_icon, map, position_image, utm_e, utm_n);
       });
       if (data['results'].length > 0) {
         last_position = data['results'][data['results'].length - 1];
@@ -114,22 +118,23 @@ function getPostion() {
   })
 }
 
-function set_marker(_lat, _lng, _icon, _map, image = null) {
+function set_marker(_lat, _lng, _icon, _map, image = null, utm_e, utm_n) {
   var marker =  new google.maps.Marker({ 
     position: {lat: _lat, lng: _lng}, 
     icon: _icon, 
     map: _map 
   });
   marker.addListener('click', function(){
-    markerInfo(marker, _lat, _lng, image);
+    markerInfo(marker, _lat, _lng, image, utm_e, utm_n);
   });
   return marker;
 }
 
-function markerInfo(marker, _lat, _lng, image = null) {
+function markerInfo(marker, _lat, _lng, image = null, utm_e, utm_n) {
   console.log(image);
-  var content = `<p style="font-size: 2vh;">緯度 : ${_lat} 経度 : ${_lng}</p>`
+  var content = `<p style="font-size: 3vh;">緯度 : ${_lat} 経度 : ${_lng}</p>`
   if (image) content += `<p><img src="${location.protocol +image}"></p>`
+  if (utm_e && utm_n) content += `<p style="font-size: 3vh;"> utm: ${utm_e}${utm_n}</p>`
   new google.maps.InfoWindow({
       content: content
   }).open(marker.getMap(), marker);
