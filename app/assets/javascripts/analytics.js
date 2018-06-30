@@ -63,6 +63,7 @@ function initMap() {
       disasters.forEach(element => {
         $("#disaster_table").append($(`<tr><td><img src="${element['image']['table_image']['url']}">${element['disaster_name']}</td></tr>`));
       });
+      $("#disaster_table").append($(`<button onclick="move_default_point()" class="btn btn-primary btn-lg btn-block" style="width: 100%">小池小学校に移動する</button>`));
     } else {
       console.log(data['message']);
       disasters = [];
@@ -138,4 +139,9 @@ function markerInfo(marker, _lat, _lng, image = null, utm_e, utm_n) {
   new google.maps.InfoWindow({
       content: content
   }).open(marker.getMap(), marker);
+}
+
+function move_default_point() {
+  map.panTo(new google.maps.LatLng(37.637664884279005, 138.90591575798942));
+  map.setZoom(17);
 }

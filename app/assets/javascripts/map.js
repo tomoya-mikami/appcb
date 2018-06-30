@@ -268,3 +268,8 @@ function UnVisibleGetMarker() {
     element.setVisible(false);
   });
 }
+
+function move_default_point() {
+  map.panTo(new google.maps.LatLng(37.637664884279005, 138.90591575798942));
+  map.setZoom(17);
+}
