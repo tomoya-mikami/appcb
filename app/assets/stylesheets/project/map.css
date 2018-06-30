@@ -11,3 +11,10 @@
   bottom: 0;
   right: 0;
 }
+
+@media screen and (min-width: 1024px) {
+  .addressform {
+    font-size: 2.5vh;
+    font-weight: bold;
+  }
+}
