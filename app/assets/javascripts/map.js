@@ -9,6 +9,7 @@ var disasters;
 var disaster_index = 0;
 var project_token = '';
 var google_map_api_key = '';
+var infowindow;
 
 //projectトークンを設定する
 function initToken(token, api_key) {
@@ -133,9 +134,10 @@ function getClickLatLng(lat_lng, map) {
 // マーカーに情報ウインドウを表示する
 function markerInfo(marker, adress) {
   var content = `<p style="font-size: 2vh;">${adress}</p>`
-  new google.maps.InfoWindow({
-      content: content
-  }).open(marker.getMap(), marker);
+  infowindow = new google.maps.InfoWindow({
+    content: content
+  })
+  infowindow.open(marker.getMap(), marker);
 }
 
 // 横のアイコンをタッチするとマーカーの種類が変わる
@@ -179,6 +181,7 @@ document.getElementById('pos_send').onclick = function() {
       document.getElementById('lng').value = '';
       document.getElementById('description').value = '';
       $('#success_modal').modal();
+      infowindow.close();
       now_index++;
     }
   }).fail(function(jqXHR, textStatus, errorThrown){
