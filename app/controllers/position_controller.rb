@@ -16,7 +16,22 @@ class PositionController < ApplicationController
   end
 
   def create
-    position = @project.positions.build(latitude: params[:latitude], longitude: params[:longitude], description: params[:description], position_type: params[:position_type], disaster_id: params[:disaster_id], image: params[:image])
+
+    ellipsoid = GeoUtm::Ellipsoid.new("Bessel 1841", 6377397, 0.006674372)
+    utm_option = { :ellipsoid => ellipsoid}
+    if params.has_key?('latitude') && params.has_key?('longitude') then
+      _lat = params[:latitude]
+      _lng = params[:longitude]
+      utm = GeoUtm::LatLon.new(_lat.to_f, _lng.to_f).to_utm(utm_option)
+    else
+      utm = GeoUtm::LatLon.new(0, 0).to_utm(GeoUtm::Ellipsoid.new(utm_option))
+    end
+    utm_e = utm.e
+    utm_n = utm.n
+    utm_e = (utm_e/10) % 10000
+    utm_n = (utm.n/10) % 10000
+
+    position = @project.positions.build(latitude: params[:latitude], longitude: params[:longitude], description: params[:description], position_type: params[:position_type], disaster_id: params[:disaster_id], image: params[:image], utm_e: utm_e.floor, utm_n: utm_n.floor)
     if position.save
       @response['message']['success'] = '保存しました'
       @response['status'] = :create
