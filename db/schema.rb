@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_30_142922) do
+ActiveRecord::Schema.define(version: 2018_09_23_083504) do
 
-  create_table "active_admin_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "active_admin_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 2018_06_30_142922) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
   end
 
-  create_table "admin_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "admin_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -43,14 +43,23 @@ ActiveRecord::Schema.define(version: 2018_06_30_142922) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "disasters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
-    t.string "disaster_name"
+  create_table "disaster_projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "disaster_id"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["disaster_id"], name: "index_disaster_projects_on_disaster_id"
+    t.index ["project_id"], name: "index_disaster_projects_on_project_id"
+  end
+
+  create_table "disasters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "positions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "positions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "position_type"
     t.decimal "longitude", precision: 18, scale: 15
     t.decimal "latitude", precision: 18, scale: 15
@@ -65,7 +74,7 @@ ActiveRecord::Schema.define(version: 2018_06_30_142922) do
     t.index ["project_id"], name: "index_positions_on_project_id"
   end
 
-  create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
+  create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "google_map_api_key"
     t.string "token"
@@ -76,36 +85,18 @@ ActiveRecord::Schema.define(version: 2018_06_30_142922) do
     t.index ["token"], name: "index_projects_on_token", unique: true
   end
 
-  create_table "tweet_get_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
-    t.string "hash_tag"
-    t.string "last_tweet_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "tweet_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "tweet_id"
-    t.index ["tweet_id"], name: "index_tweet_images_on_tweet_id"
-  end
-
-  create_table "tweets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
-    t.string "tw_id"
+  create_table "tweets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "tw_id"
     t.string "tw_time"
     t.string "tw_text"
     t.decimal "lon", precision: 10
     t.decimal "lat", precision: 10
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "tweet_image_id"
-    t.string "url"
-    t.index ["tweet_image_id"], name: "index_tweets_on_tweet_image_id"
   end
 
+  add_foreign_key "disaster_projects", "disasters"
+  add_foreign_key "disaster_projects", "projects"
   add_foreign_key "positions", "projects"
   add_foreign_key "projects", "positions"
-  add_foreign_key "tweet_images", "tweets"
-  add_foreign_key "tweets", "tweet_images"
 end

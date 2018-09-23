@@ -11,7 +11,7 @@ class DisastersController < ActionController::Base
   private
 
     def disaster_params
-      params.require(:disaster).permit(:disaster_name, :image)
+      params.require(:disaster).permit(:name, :image)
     end
 
     def response_init

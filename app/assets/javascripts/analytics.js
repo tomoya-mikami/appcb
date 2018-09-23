@@ -61,7 +61,7 @@ function initMap() {
       console.log(data);
       disasters = data['results'];
       disasters.forEach(element => {
-        $("#disaster_table").append($(`<tr><td><img src="${element['image']['table_image']['url']}">${element['disaster_name']}</td></tr>`));
+        $("#disaster_table").append($(`<tr><td><img src="${element['image']['table_image']['url']}">${element['name']}</td></tr>`));
       });
       $("#disaster_table").append($(`<button onclick="move_default_point()" class="btn btn-primary btn-lg btn-block" style="width: 100%">小池小学校に移動する</button>`));
     } else {

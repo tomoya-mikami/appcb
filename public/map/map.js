@@ -60,7 +60,7 @@ function initMap() {
     var set_disater_id = 0;
 		disasters = data['results'];
     disasters.forEach(element => {
-			$("#disaster_table").append($(`<tr id= "disaster_table_${set_disater_id}" onclick="change_marker(${set_disater_id++})"><td><img src="${element['image']['table_image']['url']}">${element['disaster_name']}</td></tr>`));
+			$("#disaster_table").append($(`<tr id= "disaster_table_${set_disater_id}" onclick="change_marker(${set_disater_id++})"><td><img src="${element['image']['table_image']['url']}">${element['name']}</td></tr>`));
     });
     console.log(disasters);
 	}).fail(function(jqXHR, textStatus, errorThrown){

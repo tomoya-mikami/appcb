@@ -44,7 +44,7 @@
 
   |name           |type     |null   |default  |description  |
   |---------------|---------|-------|---------|-------------|
-  |disaster_name  |string   |false  |         |災害の名称    |
+  |name  |string   |false  |         |災害の名称    |
   |image          |string   |false  |         |災害のアイコン |
 
 * Database initialization

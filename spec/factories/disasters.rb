@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :disaster do
-    disaster_name "MyString"
+    name "MyString"
     image "MyString"
   end
 end
