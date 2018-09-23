@@ -50,10 +50,7 @@
         </div>
         <div id="addressform" class="col-4 addressform">
             <div id="formexplain">
-                〇 × △のマーカーの位置を探しています. ご協力よろしくお願いいたします.</br>
-                1. 見つけたマーカーを選択(選択すると背景が青くなります)</br>
-                2. 地図上のマーカーのあった位置をタッチ</br>
-                3. 間違えがなければ送信</br>
+                <%= @project.description.html_safe %>
             </div>
             <input type="hidden" name="lat" id="lat">
             <input type="hidden" name="lng" id="lng">

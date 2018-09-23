@@ -54,7 +54,10 @@ function initMap() {
 	$.ajax({
 		type: "Get",
 		url: location.protocol + "/disasters/index/",
-		dataType: 'json',
+    dataType: 'json',
+    data: {
+      project_token: project_token
+    },
 	}).done(function(data){
     $("#disaster_table").append($(`<tr><td>マーカーと災害の対応表</td></tr>`));
     if ( ! data['error']) {

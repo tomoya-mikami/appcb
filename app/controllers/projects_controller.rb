@@ -21,5 +21,8 @@ class ProjectsController < ApplicationController
     if @project.nil?
       raise ActiveRecord::RecordNotFound.new("プロジェクトが存在しません")
     end
+    if @project.description.nil?
+      @project.description = ""
+    end
   end
 end
