@@ -15,7 +15,9 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
 	<%= javascript_include_tag "analytics.js" %>
 	<div id="disasterinfo" class="disasterinfo">
-		<table id="disaster_table" class="table table-bordered disaster_table"></table>
+		<table id="disaster_table" class="table table-bordered disaster_table">
+			<tr><td><%= @project.show_explain %></td></tr>
+		</table>
 	</div>
   <script>initToken("<%= @project.token %>", "<%= @project.google_map_api_key %>")</script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=<%= @project.google_map_api_key %>&callback=initMap" async defer></script>

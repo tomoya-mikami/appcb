@@ -59,7 +59,6 @@ function initMap() {
       project_token: project_token
     },
 	}).done(function(data){
-    $("#disaster_table").append($(`<tr><td>マーカーと災害の対応表</td></tr>`));
     if ( ! data['error']) {
       console.log(data);
       disasters = data['results'];
