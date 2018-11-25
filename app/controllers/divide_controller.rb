@@ -65,64 +65,6 @@ class DivideController < ApplicationController
     render :json => @response
   end
 
-  def setup_directory
-    paths = []
-    image_path = Rails.public_path.join('img', @project.name).to_s
-    paths << image_path + '/src'
-    paths << image_path + '/dest'
-    paths << image_path + '/original'
-
-    begin
-      paths.each do |path|
-        FileUtils.mkdir_p(path) unless FileTest.exist?(path)
-      end
-    rescue => exception
-      @response['error'] = true
-      @response['message'] = 'ディレクトリの作成に失敗しました'
-      @response['status'] = 500
-      return render :json => @response
-    end
-
-      @response['error'] = false
-      @response['message'] = 'ディレクトリの作成に成功しました'
-      @response['status'] = 200
-
-      render :json => @response
-  end
-
-  def setup_image
-    image_path = Rails.public_path.join('img', @project.name).to_s
-    original_dir = image_path + '/original'
-    src_dir =  image_path + '/src'
-    output_dir = image_path + '/dest'
-
-    image_init(original_dir, src_dir, output_dir)
-
-    render :json => @response
-  end
-
-  def reset
-    image_path = Rails.public_path.join('img', @project.name).to_s
-    original_dir = image_path + '/original'
-    src_dir =  image_path + '/src'
-    output_dir = image_path + '/dest'
-
-    begin
-      FileUtils.rm_r(output_dir)
-      FileUtils.mkdir_p(output_dir)
-      FileUtils.rm_r(src_dir)
-      FileUtils.mkdir_p(src_dir)
-      image_init(original_dir, src_dir, output_dir)
-    rescue => error
-      @response['error'] = true
-      @response['message']['fail'] = 'リセットに失敗しました'
-      @response['message']['error'] = error
-      @response['status'] = 500
-    end
-
-    render :json => @response
-  end
-
   private
 
   def response_init
@@ -186,46 +128,6 @@ class DivideController < ApplicationController
       @response['status'] = 500
     end
 
-  end
-
-  def image_init(original_dir, src_dir, output_dir)
-
-    dest_image = nil
-    image = nil
-
-    src_files = []
-    num = 0
-
-    begin
-
-      originals = Dir.glob(original_dir + '/*')
-      originals.each do |original|
-        filename = File.basename(original)
-        name, ext = /\A(.+?)((?:\.[^.]+)?)\z/.match(filename, &:captures)
-        image = Magick::ImageList.new(original_dir + '/' + filename)
-        image.write(src_dir + '/' + name + '.png')
-        dest_image = image.resize_to_fit(500, 500)
-        dest_image.write(output_dir + '/' + name + '_1_1_1.png')
-        num = num + 1
-        src_files.push([num, src_dir + '/' + name + '.png'])
-        dest_image.destroy!
-        image.destroy!
-      end
-
-      @response['message']['success'] = '画像の準備に成功しました'
-      @response['status'] = 200
-
-    rescue => error
-      dest_image.destroy! if dest_image
-      image.destroy! if image
-
-      @response['error'] = true
-      @response['message']['fail'] = '画像の準備に失敗しました'
-      @response['message']['error'] = error
-      @response['status'] = 500
-    end
-
-    return src_files
   end
 
 end

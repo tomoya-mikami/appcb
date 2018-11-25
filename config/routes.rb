@@ -9,9 +9,6 @@ Rails.application.routes.draw do
   get 'position/index'
   post 'position/create'
   get 'divide/', to: 'divide#index'
-  get 'divide/setup/directory', to: 'divide#setup_directory'
-  get 'divide/setup/image', to: 'divide#setup_image'
-  get 'divide/reset', to: 'divide#reset'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
