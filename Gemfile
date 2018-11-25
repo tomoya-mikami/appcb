@@ -61,6 +61,8 @@ gem 'rmagick'
 gem 'rails-i18n'
 # geoutm
 gem 'geoutm'
+# listen
+gem 'listen'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
