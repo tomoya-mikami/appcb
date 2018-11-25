@@ -46,3 +46,7 @@
 
 # Ignore uploads image
 /public/uploads/
+
+# Ignore divide img
+/public/img/*
+!.gitkeep
