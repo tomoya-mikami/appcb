@@ -1,6 +1,10 @@
 require 'rmagick'
 require 'csv'
 require 'fileutils'
+require 'httpclient'
+require 'uri'
+require 'json'
+require 'socket'
 
 if ! ARGV[0]
   puts 'プロジェクトのトークンを入力してください'
@@ -13,10 +17,10 @@ if ! project
   return false
 end
 
-image_path = Rails.public_path.join('img', project.name).to_s
-original_dir = image_path + '/original'
-src_dir =  image_path + '/src'
-output_dir = image_path + '/dest'
+project_path = Rails.public_path.join('img', project.name).to_s
+original_dir = project_path + '/original'
+src_dir =  project_path + '/src'
+output_dir = project_path + '/dest'
 
 src_files = []
 num = 0
@@ -26,6 +30,11 @@ image = nil
 
 src_files = []
 num = 0
+
+client = HTTPClient.new()
+if ! project.auth_name.empty?
+  client.set_auth(project.estimate_url, project.auth_name, project.auth_password);
+end
 
 begin
   FileUtils.rm_r(output_dir)
@@ -45,6 +54,18 @@ begin
     src_files.push([num, src_dir + '/' + name + '.png'])
     dest_image.destroy!
     image.destroy!
+    source = project.sources.build(name: name, uuid: SecureRandom.uuid)
+    image_path = Settings.url + '/img/' + project.name + '/dest/' + source.name + '_1_1_1.png'
+    tuple = "source_id:#{source.uuid},image_url:#{image_path},status_id:-1"
+    p tuple
+    res = client.post(project.estimate_url, 
+      {
+        :project_name => project.name,
+        :relation_name => "Image",
+        :tuple => tuple
+      }
+    )
+    p res.status
   end
 
   puts '画像の準備に成功しました'

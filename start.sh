@@ -1,4 +1,5 @@
 #!/bin/sh
+spring stop
 export RAILS_ENV=production
 kill `cat tmp/pids/server.pid`
 #git pull origin master

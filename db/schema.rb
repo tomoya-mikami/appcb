@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_28_145242) do
+ActiveRecord::Schema.define(version: 2018_12_25_141506) do
 
   create_table "active_admin_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "namespace"
@@ -83,8 +83,20 @@ ActiveRecord::Schema.define(version: 2018_09_28_145242) do
     t.bigint "position_id"
     t.string "description"
     t.string "show_explain"
+    t.string "estimate_url"
+    t.string "auth_name"
+    t.string "auth_password"
     t.index ["position_id"], name: "index_projects_on_position_id"
     t.index ["token"], name: "index_projects_on_token", unique: true
+  end
+
+  create_table "sources", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "uuid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_sources_on_project_id"
   end
 
   create_table "tweets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -101,4 +113,5 @@ ActiveRecord::Schema.define(version: 2018_09_28_145242) do
   add_foreign_key "disaster_projects", "projects"
   add_foreign_key "positions", "projects"
   add_foreign_key "projects", "positions"
+  add_foreign_key "sources", "projects"
 end
