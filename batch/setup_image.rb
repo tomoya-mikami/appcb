@@ -36,6 +36,8 @@ if ! project.auth_name.empty?
   client.set_auth(project.estimate_url, project.auth_name, project.auth_password);
 end
 
+sources = []
+
 begin
   FileUtils.rm_r(output_dir)
   FileUtils.mkdir_p(output_dir)
@@ -57,7 +59,6 @@ begin
     source = project.sources.build(name: name, uuid: SecureRandom.uuid)
     image_path = Settings.url + '/img/' + project.name + '/dest/' + source.name + '_1_1_1.png'
     tuple = "source_id:#{source.uuid},image_url:#{image_path},status_id:-1"
-    p tuple
     res = client.post(project.estimate_url, 
       {
         :project_name => project.name,
@@ -66,6 +67,7 @@ begin
       }
     )
     p res.status
+    sources << source
   end
 
   puts '画像の準備に成功しました'
@@ -76,3 +78,5 @@ rescue => error
 
   puts = '画像の準備に失敗しました'
 end
+
+Source.import sources

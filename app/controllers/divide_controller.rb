@@ -16,15 +16,21 @@ class DivideController < ApplicationController
     base_horizontal = params['base_horizontal']
     column = params['column'].to_i
     row = params['row'].to_i
+    source_id = params['source_id']
 
-    image_path = Rails.public_path.join('img', @project.name).to_s
-    src_dir =  image_path + '/src'
-    output_dir = image_path + '/dest'
+    project_path = Rails.public_path.join('img', @project.name).to_s
+    src_dir =  project_path + '/src'
+    output_dir = project_path + '/dest'
     extension = 'png'
     divid = 2 ** base_depth.to_i
 
     src = nil
     image = nil
+
+    client = HTTPClient.new()
+    if ! @project.auth_name.empty?
+      client.set_auth(@project.estimate_url, @project.auth_name, @project.auth_password);
+    end
 
     begin
       src = Magick::ImageList.new("#{src_dir}/#{basefile}.#{extension}")
@@ -44,6 +50,15 @@ class DivideController < ApplicationController
           dest_image.write(output_file)
           dest_image.destroy!
           image.destroy!
+          image_path = Settings.url + '/img/' + @project.name + '/dest/' + "#{basefile}_#{output_depth}_#{output_vertical}_#{output_horizontal}.#{extension}"
+          tuple = "source_id:#{source_id},image_url:#{image_path},status_id:-1"
+          res = client.post(@project.estimate_url, 
+            {
+              :project_name => @project.name,
+              :relation_name => "Image",
+              :tuple => tuple
+            }
+          )
         end
       end
       src.destroy!
@@ -122,6 +137,11 @@ class DivideController < ApplicationController
     if ! params.has_key?(:row)
       @response['error'] = true
       @response['message']['not_found_row'] = ['rowを指定してください']
+    end
+
+    if ! params.has_key?(:source_id)
+      @response['error'] = true
+      @response['message']['not_found_source_id'] = ['source_idを指定してください']
     end
 
     if @response['error']
