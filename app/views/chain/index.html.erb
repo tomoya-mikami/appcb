@@ -1,0 +1,22 @@
+<% if @error %>
+<%= @error %><br>
+<% end %>
+
+あなたの受付番号とコードを入力してください
+<form action="/chain">
+  受付番号 : <input type="text" name="token"><br>
+  コード : <input type="text" name="code"><br>
+  <button type="submit">送信する</button>
+</form>
+
+<% if @chain %>
+  あなたの登録した記録です
+<table>
+  <thead>
+    <tr><th>受付番号</th><th>コード</th><th>amazonギフト券番号</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><%= @chain.token %></td><td><%= @chain.code %></td><td><%= @chain.amazon_code %></td></tr>
+  </tbody>
+</table>
+<% end %>

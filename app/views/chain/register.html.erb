@@ -1,0 +1,13 @@
+<% if @error %>
+  <%= @error %>
+<% else %>
+登録が完了いたしました.
+<table>
+  <thead>
+    <tr><th>受付番号</th><th>コード</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><%= @chain.token %></td><td><%= @chain.code %></td></tr>
+  </tbody>
+</table>
+<% end %>
