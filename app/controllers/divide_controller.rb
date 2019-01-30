@@ -74,6 +74,8 @@ class DivideController < ApplicationController
       @response['message']['fail'] = '画像の分割に失敗しました'
       @response['message']['error'] = error
       @response['status'] = 500
+      logger.error "画像の分割に失敗しました basefile : #{basefile}"
+      logger.error "error : #{error}"
 
     end
 
