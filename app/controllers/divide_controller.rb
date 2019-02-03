@@ -73,7 +73,6 @@ class DivideController < ApplicationController
       @response['status'] = 500
       logger.error "画像の分割に失敗しました basefile : #{basefile}"
       logger.error "error : #{error}"
-
     end
 
     render :json => @response
@@ -109,6 +108,8 @@ class DivideController < ApplicationController
           @response['message']['error'] = ['致命的なエラーが発生しました']
           @response['message']['catch'] = e
           @response['status'] = 500
+          logger.error "error: #{e}"
+          logger.error "params: #{params.inspect}"
       end
     end
 
