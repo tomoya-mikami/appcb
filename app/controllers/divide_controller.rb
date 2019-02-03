@@ -28,9 +28,6 @@ class DivideController < ApplicationController
     image = nil
 
     client = HTTPClient.new()
-    if ! @project.auth_name.empty?
-      client.set_auth(@project.estimate_url, @project.auth_name, @project.auth_password);
-    end
 
     begin
       src = Magick::ImageList.new("#{src_dir}/#{basefile}.#{extension}")
@@ -66,7 +63,7 @@ class DivideController < ApplicationController
       @response['message']['success'] = '画像の分割に成功しました'
       @response['status'] = 200
 
-    rescue StandardError => error
+    rescue => error
       src.destroy! if src
       image.destroy! if image
 
@@ -98,13 +95,24 @@ class DivideController < ApplicationController
     if ! params.has_key?(:project_token)
       @response['error'] = true
       @response['message']['error'] = ['プロジェクトのトークンを送ってください']
-      return render :json => @response
+      @response['status'] = 500
+    else
+      begin
+        @project = Project.find_by(token: params[:project_token])
+        if ! @project
+          @response['error'] = true
+          @response['message']['error'] = ['プロジェクトが見つかりません']
+          @response['status'] = 404
+        end
+      rescue => e
+          @response['error'] = true
+          @response['message']['error'] = ['致命的なエラーが発生しました']
+          @response['message']['catch'] = e
+          @response['status'] = 500
+      end
     end
 
-    @project = Project.find_by(token: params[:project_token])
-    if ! @project
-      @response['error'] = true
-      @response['message']['error'] = ['プロジェクトが見つかりません']
+    if @response['error']
       return render :json => @response
     end
   end

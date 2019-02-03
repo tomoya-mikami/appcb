@@ -32,9 +32,6 @@ src_files = []
 num = 0
 
 client = HTTPClient.new()
-if ! project.auth_name.empty?
-  client.set_auth(project.estimate_url, project.auth_name, project.auth_password);
-end
 
 sources = []
 
