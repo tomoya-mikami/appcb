@@ -103,7 +103,6 @@ class DivideController < ApplicationController
           @response['message']['error'] = ['プロジェクトが見つかりません']
           @response['status'] = 404
         end
-        ActiveRecord::Base.connection.close
       rescue => e
           @response['error'] = true
           @response['message']['error'] = ['致命的なエラーが発生しました']
