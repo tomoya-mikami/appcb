@@ -29,7 +29,7 @@ production:
   adapter: mysql2
   encoding: utf8
   database: <%= ENV['DB_DATABASE'] %>
-  pool: 5
+  pool: <%= ENV['MAX_CONNECTION_POOL'] || 5 %>
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   host: localhost
