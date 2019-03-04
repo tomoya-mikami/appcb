@@ -58,12 +58,12 @@ namespace :update do
             :relation_name => "Image",
           }
         )
-        res = res.body
+        raise "サーバー側でエラーが発生しました(500エラー)" if res.code == 500
       rescue => exception
         Rails.logger.error("プロジェクト[#{project.name}] プロジェクトの結果の取得に失敗しました: #{exception}")
         next
       end
-      images = JSON::parse(res)
+      images = JSON::parse(res.body)
 
       project.sources.each do |source|
         results = {}
@@ -105,5 +105,6 @@ namespace :update do
         Rails.logger.error("データベースの更新に失敗しました: #{exception}")
       end
     end
+
   end
 end
