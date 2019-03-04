@@ -42,6 +42,7 @@ namespace :update do
   task :sources => :environment do |task, args|
 
     client = HTTPClient.new()
+    client.ssl_config.verify_mode = OpenSSL::SSL::VERIFY_NONE
     projects = Project.all
     update_sources = []
 

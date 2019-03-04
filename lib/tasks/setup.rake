@@ -67,6 +67,7 @@ namespace :setup do
     num = 0
 
     client = HTTPClient.new()
+    client.ssl_config.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
     sources = []
 
