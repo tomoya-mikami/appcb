@@ -31,6 +31,7 @@ namespace :setup do
         FileUtils.mkdir_p(path) unless FileTest.exist?(path)
       end
     rescue => exception
+      Rails.logger.error("ディレクトリの作成に失敗しました: #{exception}")
       puts 'ディレクトリの作成に失敗しました'
       next
     end
@@ -97,17 +98,15 @@ namespace :setup do
             :tuple => tuple
           }
         )
-        p res.status
         sources << source
       end
 
       puts '画像の準備に成功しました'
 
-    rescue => error
+    rescue => exception
       dest_image.destroy! if dest_image
       image.destroy! if image
-
-      puts = '画像の準備に失敗しました'
+      Rails.logger.error("画像の準備に失敗しました: #{exception}")
     end
 
     Source.import sources
