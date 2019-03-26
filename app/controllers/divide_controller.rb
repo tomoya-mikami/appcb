@@ -28,6 +28,7 @@ class DivideController < ApplicationController
     image = nil
 
     client = HTTPClient.new()
+    client.ssl_config.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
     begin
       src = Magick::ImageList.new("#{src_dir}/#{basefile}.#{extension}")

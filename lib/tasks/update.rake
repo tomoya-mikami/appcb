@@ -58,7 +58,7 @@ namespace :update do
             :relation_name => "Image",
           }
         )
-        raise "サーバー側でエラーが発生しました(500エラー)" if res.code == 500
+        raise "サーバー側でエラーが発生しました(500エラー)" if res.code >= 500
       rescue => exception
         Rails.logger.error("プロジェクト[#{project.name}] プロジェクトの結果の取得に失敗しました: #{exception}")
         next
